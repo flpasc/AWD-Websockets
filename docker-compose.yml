@@ -1,0 +1,29 @@
+
+services:
+  # Express Backend
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5001:5000"
+    environment:
+      - PORT=5000
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    restart: always
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - FRONTEND_API_URL=http://localhost:5000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    restart:  always
